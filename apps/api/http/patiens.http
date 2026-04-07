@@ -1,0 +1,68 @@
+### Variables
+@host = http://localhost:3002
+@patientId = cmsnrdpl50001ilp4c03nq4wo
+#################################################
+# Patients
+#################################################
+
+### Get all patients
+GET {{host}}/patients
+Accept: application/json
+
+###
+
+### Get patient by id (itération 2)
+GET {{host}}/patients/{{patientId}}
+Accept: application/json
+
+###
+
+### Create patient (itération 2)
+POST {{host}}/patients
+Content-Type: application/json
+
+{
+  "firstName": "John",
+  "lastName": "Doe"
+}
+
+###
+
+### Update patient (itération 3)
+PATCH {{host}}/patients/{{patientId}}
+Content-Type: application/json
+
+{
+  "firstName": "Johnny"
+}
+
+###
+
+### Delete patient (itération 3)
+DELETE {{host}}/patients/{{patientId}}
+
+###
+
+### Health Check (si tu en ajoutes un)
+GET {{host}}/
+Accept: application/json
+
+### Register
+POST {{host}}/auth/register
+Content-Type: application/json
+
+{
+  "email": "axel@test.com",
+  "password": "password123",
+  "firstName": "Axel",
+  "lastName": "Coudair"
+}
+
+### Login
+POST {{host}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "axel@test.com",
+  "password": "password123"
+}
