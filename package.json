@@ -4,9 +4,23 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nx run-many -t dev start:dev --parallel=2",
+    "dev:api": "nx start:dev api",
+    "dev:web": "nx dev web",
+    "build": "nx run-many -t build",
+    "test": "nx run-many -t test",
+    "lint": "nx run-many -t lint",
+    "typecheck": "nx run-many -t typecheck",
+    "check": "nx run-many -t typecheck lint test build",
+    "affected": "nx affected -t typecheck lint test build",
+    "graph": "nx graph"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "private": true,
+  "packageManager": "pnpm@9.5.0",
+  "devDependencies": {
+    "nx": "23.2.1"
+  }
 }
