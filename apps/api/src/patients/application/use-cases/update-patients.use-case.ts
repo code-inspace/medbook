@@ -1,6 +1,7 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { Patient } from 'src/patients/domain/entities/patient.entity';
-import { PatientRepository } from 'src/patients/domain/repositories/patient.repository';
+import { Injectable } from '@nestjs/common';
+import { NotFoundError } from '../../../shared/domain/domain-error';
+import { Patient } from '../../domain/entities/patient.entity';
+import { PatientRepository } from '../../domain/repositories/patient.repository';
 import { UpdatePatientDto } from '../dto/update-patient.dto';
 
 @Injectable()
@@ -10,7 +11,7 @@ export class UpdatePatientsUseCase {
   async execute(id: string, data: UpdatePatientDto): Promise<Patient> {
     const patient = await this.patientRepository.findById(id);
     if (!patient) {
-      throw new NotFoundException('Patient not found');
+      throw new NotFoundError('Patient not found');
     }
     return this.patientRepository.update(id, data);
   }

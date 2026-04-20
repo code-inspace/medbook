@@ -18,6 +18,8 @@ model Patient {
   firstName String
   lastName  String
   createdAt DateTime @default(now())
+
+  appointments Appointment[]
 }
 
 model User {
@@ -27,4 +29,26 @@ model User {
   firstName String
   lastName  String
   createdAt DateTime @default(now())
+
+  appointments Appointment[]
+}
+
+enum AppointmentStatus {
+  SCHEDULED
+  CANCELLED
+}
+
+model Appointment {
+  id             String            @id @default(cuid())
+  patientId      String
+  practitionerId String
+  startsAt       DateTime
+  endsAt         DateTime
+  status         AppointmentStatus @default(SCHEDULED)
+  createdAt      DateTime          @default(now())
+
+  patient      Patient @relation(fields: [patientId], references: [id])
+  practitioner User    @relation(fields: [practitionerId], references: [id])
+
+  @@index([practitionerId, startsAt])
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { Patient } from 'src/patients/domain/entities/patient.entity';
-import { PatientRepository } from 'src/patients/domain/repositories/patient.repository';
+import { Patient } from '../../domain/entities/patient.entity';
+import { PatientRepository } from '../../domain/repositories/patient.repository';
 import { CreatePatientDto } from '../dto/create-patient.dto';
 
 @Injectable()

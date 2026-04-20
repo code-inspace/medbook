@@ -5,8 +5,10 @@ import { GetPatientsUseCase } from './application/use-cases/get-patients.use-cas
 import { PatientsController } from './presentation/controllers/patients.controller';
 import { CreatePatientsUseCase } from './application/use-cases/create-patients.use-case';
 import { UpdatePatientsUseCase } from './application/use-cases/update-patients.use-case';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
+  imports: [AuthModule],
   controllers: [PatientsController],
   providers: [
     GetPatientsUseCase,
@@ -17,5 +19,6 @@ import { UpdatePatientsUseCase } from './application/use-cases/update-patients.u
       useClass: PrismaPatientRepository,
     },
   ],
+  exports: [PatientRepository],
 })
 export class PatientsModule {}
