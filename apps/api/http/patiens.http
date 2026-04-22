@@ -66,3 +66,53 @@ Content-Type: application/json
   "email": "axel@test.com",
   "password": "password123"
 }
+
+### Me
+GET {{host}}/auth/me
+Accept: application/json
+
+#################################################
+# Rendez-vous (cookie access_token requis : lancer Login avant)
+#################################################
+
+### Lister mes rendez-vous
+GET {{host}}/appointments
+Accept: application/json
+
+### Lister à partir d'une date
+GET {{host}}/appointments?from=2030-01-01T00:00:00Z
+Accept: application/json
+
+### Planifier (patientId = un patient existant, date dans le futur)
+POST {{host}}/appointments
+Content-Type: application/json
+
+{
+  "patientId": "{{patientId}}",
+  "startsAt": "2030-01-01T09:00:00Z",
+  "durationMinutes": 30
+}
+
+### Même créneau => 409 Conflict
+POST {{host}}/appointments
+Content-Type: application/json
+
+{
+  "patientId": "{{patientId}}",
+  "startsAt": "2030-01-01T09:15:00Z",
+  "durationMinutes": 30
+}
+
+### Durée hors limites => 422
+POST {{host}}/appointments
+Content-Type: application/json
+
+{
+  "patientId": "{{patientId}}",
+  "startsAt": "2030-01-01T14:00:00Z",
+  "durationMinutes": 300
+}
+
+### Annuler
+@appointmentId = remplacer-par-un-id
+PATCH {{host}}/appointments/{{appointmentId}}/cancel

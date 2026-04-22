@@ -32,4 +32,11 @@ export default tseslint.config(
       "prettier/prettier": ["error", { endOfLine: "auto" }],
     },
   },
+  {
+    // Les doublures de test implémentent des ports asynchrones sans I/O réelle.
+    files: ['**/*.fake.ts', '**/*.spec.ts'],
+    rules: {
+      '@typescript-eslint/require-await': 'off',
+    },
+  },
 );

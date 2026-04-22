@@ -1,18 +1,21 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePatientDto } from 'src/patients/application/dto/create-patient.dto';
-import { Patient } from 'src/patients/domain/entities/patient.entity';
-import { PatientRepository } from 'src/patients/domain/repositories/patient.repository';
-import { PrismaService } from 'src/prisma/prisma.service';
+import {
+  NewPatient,
+  Patient,
+  PatientChanges,
+} from '../../domain/entities/patient.entity';
+import { PatientRepository } from '../../domain/repositories/patient.repository';
+import { PrismaService } from '../../../prisma/prisma.service';
 
 @Injectable()
 export class PrismaPatientRepository implements PatientRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(data: CreatePatientDto): Promise<Patient> {
+  async create(data: NewPatient): Promise<Patient> {
     const patient = await this.prisma.patient.create({ data });
     return new Patient(patient.id, patient.firstName, patient.lastName);
   }
-  async update(id: string, data: CreatePatientDto): Promise<Patient> {
+  async update(id: string, data: PatientChanges): Promise<Patient> {
     const patient = await this.prisma.patient.update({
       where: {
         id,

@@ -1,12 +1,22 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
-import { CreatePatientDto } from 'src/patients/application/dto/create-patient.dto';
-import { UpdatePatientsUseCase } from 'src/patients/application/use-cases/update-patients.use-case';
-import { CreatePatientsUseCase } from 'src/patients/application/use-cases/create-patients.use-case';
-import { GetPatientsUseCase } from 'src/patients/application/use-cases/get-patients.use-case';
-import { Patient } from 'src/patients/domain/entities/patient.entity';
-import { UpdatePatientDto } from 'src/patients/application/dto/update-patient.dto';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
+import { CreatePatientDto } from '../../application/dto/create-patient.dto';
+import { UpdatePatientDto } from '../../application/dto/update-patient.dto';
+import { CreatePatientsUseCase } from '../../application/use-cases/create-patients.use-case';
+import { GetPatientsUseCase } from '../../application/use-cases/get-patients.use-case';
+import { UpdatePatientsUseCase } from '../../application/use-cases/update-patients.use-case';
+import { Patient } from '../../domain/entities/patient.entity';
+import { JwtAuthGuard } from '../../../auth/guards/jwt-auth.guard';
 
 @Controller('patients')
+@UseGuards(JwtAuthGuard)
 export class PatientsController {
   constructor(
     private readonly getPatientsUseCase: GetPatientsUseCase,
@@ -18,10 +28,12 @@ export class PatientsController {
   findAll(): Promise<Patient[]> {
     return this.getPatientsUseCase.execute();
   }
+
   @Post()
   create(@Body() dto: CreatePatientDto): Promise<Patient> {
     return this.createPatientsUseCase.execute(dto);
   }
+
   @Patch(':id')
   update(
     @Param('id') id: string,
